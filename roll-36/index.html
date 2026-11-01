@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduSphere Journal | Roll No. 36 - Educational Publishing Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-serif-title {
+      font-family: 'Newsreader', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Top Assignment Header Banner -->
+  <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="bg-emerald-600 text-white px-2 py-0.5 rounded font-semibold uppercase tracking-wider text-[10px]">CXT453 Assignment 2</span>
+        <span class="font-bold text-emerald-400">Roll No: 36</span>
+        <span class="text-slate-400">| Course: Design Process & Perspective</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-full border border-blue-400/30 text-[11px] font-medium">SDG 4: Quality Education</span>
+        <a href="../index.html" class="hover:text-emerald-400 underline font-medium flex items-center gap-1">
+          <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Hub
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="#" class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-emerald-600 text-white rounded-xl flex items-center justify-center text-xl font-bold shadow-md shadow-emerald-200">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <span class="text-2xl font-black tracking-tight text-slate-900">EduSphere<span class="text-emerald-600">.</span></span>
+            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Open Educational Publications</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+          <a href="#" class="text-emerald-700 font-bold border-b-2 border-emerald-600 pb-1">Discover</a>
+          <a href="#" class="hover:text-emerald-600 transition">Computer Science</a>
+          <a href="#" class="hover:text-emerald-600 transition">Renewable Tech</a>
+          <a href="#" class="hover:text-emerald-600 transition">Mathematics</a>
+          <a href="#" class="hover:text-emerald-600 transition">Academic Research</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center bg-slate-100 rounded-lg px-3 py-2 border border-slate-200 w-64">
+          <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs mr-2"></i>
+          <input type="text" placeholder="Search educational posts, topics..." class="bg-transparent text-xs w-full focus:outline-none text-slate-700">
+        </div>
+        <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition flex items-center gap-1.5">
+          <i class="fa-solid fa-pen-nib"></i>
+          <span>Submit Post</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Editorial Sub-Bar / Topic Badges -->
+  <div class="bg-white border-b border-slate-100 py-2.5 px-4 overflow-x-auto">
+    <div class="max-w-7xl mx-auto flex items-center gap-3 text-xs whitespace-nowrap text-slate-600">
+      <span class="font-bold text-slate-400 uppercase text-[10px] tracking-wider">Trending:</span>
+      <a href="#" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1 rounded-full transition font-medium">#QuantumAlgorithms</a>
+      <a href="#" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1 rounded-full transition font-medium">#ClimateInformatics</a>
+      <a href="#" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1 rounded-full transition font-medium">#CalculusSimplified</a>
+      <a href="#" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1 rounded-full transition font-medium">#OpenAccessEducation</a>
+      <a href="#" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1 rounded-full transition font-medium">#DataStructures</a>
+    </div>
+  </div>
+
+  <!-- Featured Lead Post & Editor's Picks -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+    
+    <!-- Top Feature Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+      <!-- Main Lead Article -->
+      <article class="lg:col-span-8 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md">FEATURED TUTORIAL</span>
+          <span class="text-xs text-slate-400 flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8 min read</span>
+          <span class="text-xs text-slate-400">• Peer Reviewed</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-serif-title font-bold text-slate-900 leading-tight mb-4 hover:text-emerald-700 transition cursor-pointer">
+          Demystifying Transformer Architecture: An Intuitive Visual Primer for Undergraduates
+        </h2>
+
+        <p class="text-slate-600 text-base leading-relaxed mb-6 font-normal">
+          From self-attention vectors to positional encodings: step-by-step mathematical intuitions and code diagrams breaking down how modern language models process token dependencies in parallel.
+        </p>
+
+        <!-- Visual infographic placeholder box -->
+        <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-xl p-6 mb-6">
+          <div class="flex flex-wrap justify-between items-center gap-4 text-xs font-mono text-emerald-300 border-b border-white/10 pb-3 mb-4">
+            <span>FIGURE 1.2: MULTI-HEAD ATTENTION MECHANISM</span>
+            <span class="text-slate-400">Linear Projections Q, K, V</span>
+          </div>
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="bg-white/10 p-3 rounded-lg border border-white/10">
+              <div class="text-emerald-400 font-bold mb-1">Query Vector</div>
+              <p class="text-[11px] text-slate-300">Target token search pattern</p>
+            </div>
+            <div class="bg-white/10 p-3 rounded-lg border border-white/10">
+              <div class="text-teal-400 font-bold mb-1">Key Vector</div>
+              <p class="text-[11px] text-slate-300">Contextual index address</p>
+            </div>
+            <div class="bg-white/10 p-3 rounded-lg border border-white/10">
+              <div class="text-cyan-400 font-bold mb-1">Value Vector</div>
+              <p class="text-[11px] text-slate-300">Extracted latent representation</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Author & Interaction Footer -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 text-sm">
+              DR
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Dr. Rohini Varma</h4>
+              <p class="text-[11px] text-slate-500">Associate Professor of AI & Systems</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 text-slate-400 text-sm">
+            <button class="hover:text-emerald-600 flex items-center gap-1.5 text-xs font-medium"><i class="fa-regular fa-heart"></i> 432 Likes</button>
+            <button class="hover:text-emerald-600 flex items-center gap-1.5 text-xs font-medium"><i class="fa-regular fa-comment"></i> 38 Discussion</button>
+            <button class="hover:text-emerald-600 text-xs"><i class="fa-regular fa-bookmark"></i></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Side Column: SDG 4 Curated Modules & Top Educational Threads -->
+      <aside class="lg:col-span-4 space-y-6">
+        
+        <!-- SDG 4 Mission Card -->
+        <div class="bg-gradient-to-br from-emerald-700 to-teal-800 text-white rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-emerald-200 text-xs font-bold uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-circle-check"></i> UNESCO SDG 4 Compliance
+          </div>
+          <h3 class="text-xl font-bold font-serif-title mb-2">Open Educational Resources (OER)</h3>
+          <p class="text-emerald-100 text-xs leading-relaxed mb-4">
+            All publications on EduSphere are licensed under Creative Commons Attribution 4.0 to guarantee free, unrestricted learning material for colleges worldwide.
+          </p>
+          <div class="bg-black/20 rounded-xl p-3 flex justify-between items-center text-xs">
+            <span>Indexed Articles</span>
+            <span class="font-bold font-mono text-emerald-300">1,840+ Open Posts</span>
+          </div>
+        </div>
+
+        <!-- Weekly Must-Read Posts -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-fire text-amber-500"></i> Most Read This Week
+          </h3>
+
+          <div class="space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <span class="text-[10px] font-bold text-emerald-600 uppercase">Algorithm Design</span>
+              <h4 class="text-sm font-semibold text-slate-800 hover:text-emerald-600 cursor-pointer mt-0.5">
+                Dynamic Programming vs Memoization: A Practical Benchmarking Study
+              </h4>
+              <span class="text-[11px] text-slate-400 mt-1 block">5 min read • by Prof. Thomas K.</span>
+            </div>
+
+            <div class="border-b border-slate-100 pb-3">
+              <span class="text-[10px] font-bold text-blue-600 uppercase">Physics & Materials</span>
+              <h4 class="text-sm font-semibold text-slate-800 hover:text-emerald-600 cursor-pointer mt-0.5">
+                Perovskite Solar Cells: Bridging Theoretical Limits to Real-World Roofs
+              </h4>
+              <span class="text-[11px] text-slate-400 mt-1 block">9 min read • by Sarah Chen</span>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-purple-600 uppercase">Operating Systems</span>
+              <h4 class="text-sm font-semibold text-slate-800 hover:text-emerald-600 cursor-pointer mt-0.5">
+                Virtual Memory Paging in Linux Kernel 6.x Explained
+              </h4>
+              <span class="text-[11px] text-slate-400 mt-1 block">12 min read • by Dev Menon</span>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- Educational Articles Stream -->
+    <div class="mb-10">
+      <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 mb-6">
+        <div>
+          <h3 class="text-2xl font-bold text-slate-900 font-serif-title">Recent Educational Posts</h3>
+          <p class="text-xs text-slate-500">Structured lessons, research digests, and peer tutorials</p>
+        </div>
+        <div class="flex items-center gap-2 mt-3 sm:mt-0">
+          <button class="bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg font-medium">All Topics</button>
+          <button class="bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-slate-50">Engineering</button>
+          <button class="bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-slate-50">Life Sciences</button>
+          <button class="bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-slate-50">Data Ethics</button>
+        </div>
+      </div>
+
+      <!-- 3-Column Post Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Post 1 -->
+        <article class="bg-white rounded-xl border border-slate-200 p-5 flex flex-col justify-between hover:border-emerald-300 hover:shadow-sm transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-purple-100 text-purple-800 text-[11px] font-bold px-2 py-0.5 rounded">Cybersecurity</span>
+              <span class="text-[11px] text-slate-400">4 min read</span>
+            </div>
+            <h4 class="font-bold text-base text-slate-900 hover:text-emerald-700 cursor-pointer mb-2">
+              Zero-Trust Architecture: Core Principles for Modern Distributed Networks
+            </h4>
+            <p class="text-xs text-slate-600 line-clamp-3">
+              Why perimeter defense is obsolete, and how continuous cryptographic micro-segmentation secures multi-cloud student labs.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-medium text-slate-500">By Alex Morales</span>
+            <button class="text-emerald-700 font-semibold text-xs hover:underline flex items-center gap-1">Read Post <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="bg-white rounded-xl border border-slate-200 p-5 flex flex-col justify-between hover:border-emerald-300 hover:shadow-sm transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2 py-0.5 rounded">Mathematics</span>
+              <span class="text-[11px] text-slate-400">7 min read</span>
+            </div>
+            <h4 class="font-bold text-base text-slate-900 hover:text-emerald-700 cursor-pointer mb-2">
+              Geometric Interpretations of Eigenvectors & SVD Decomposition
+            </h4>
+            <p class="text-xs text-slate-600 line-clamp-3">
+              A comprehensive graphical walkthrough explaining orthogonal transformations, scaling axes, and real-world image compression.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-medium text-slate-500">By Dr. Ananya Sen</span>
+            <button class="text-emerald-700 font-semibold text-xs hover:underline flex items-center gap-1">Read Post <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="bg-white rounded-xl border border-slate-200 p-5 flex flex-col justify-between hover:border-emerald-300 hover:shadow-sm transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-blue-100 text-blue-800 text-[11px] font-bold px-2 py-0.5 rounded">Environmental</span>
+              <span class="text-[11px] text-slate-400">6 min read</span>
+            </div>
+            <h4 class="font-bold text-base text-slate-900 hover:text-emerald-700 cursor-pointer mb-2">
+              Carbon Accounting in Cloud Computing: Methods and Measurement Tools
+            </h4>
+            <p class="text-xs text-slate-600 line-clamp-3">
+              Evaluating the PUE, embodied emissions of hardware, and workload scheduling policies to minimize data center energy waste.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-medium text-slate-500">By Priya Nair</span>
+            <button class="text-emerald-700 font-semibold text-xs hover:underline flex items-center gap-1">Read Post <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Newsletter / Subscribe to Learning Digest -->
+    <div class="bg-slate-900 text-white rounded-2xl p-8 text-center max-w-3xl mx-auto shadow-md">
+      <div class="w-12 h-12 bg-emerald-500 text-slate-900 rounded-full flex items-center justify-center mx-auto text-xl mb-4 font-bold">
+        <i class="fa-regular fa-envelope"></i>
+      </div>
+      <h3 class="text-2xl font-serif-title font-bold mb-2">Subscribe to the Weekly Academic Digest</h3>
+      <p class="text-slate-300 text-xs max-w-md mx-auto mb-6">
+        Receive curated student research posts, faculty lecture notes, and open course modules directly in your inbox every Monday.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+        <input type="email" placeholder="Enter student/college email" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none flex-grow">
+        <button class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-lg transition whitespace-nowrap">
+          Join Knowledge Club
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-white border-t border-slate-200 text-slate-500 text-xs py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>
+        <span class="font-bold text-slate-900 text-sm">EduSphere Academic Publishing</span> — CXT453 Design Process and Perspective
+        <p class="text-slate-400 mt-0.5">Roll No: 36 | Question 3: Website that Publishes Educational Posts (SDG 4)</p>
+      </div>
+      <div class="text-right text-slate-400">
+        Federal Institute of Science and Technology (FISAT) • CSE Department 2026-27
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
