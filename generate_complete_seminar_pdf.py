@@ -3,15 +3,19 @@ import sys
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
 
+from build_exact_plagiarism_pdf import (
+    create_header_drawing, create_card1_drawing, create_card2_drawing, create_card3_drawing,
+    create_stats_bar, create_decorative_divider
+)
+
 BORDER_GRAY = colors.HexColor("#333333")
-DARK_GRAY = colors.HexColor("#424242")
-PLAG_GREEN = colors.HexColor("#2E7D32")
-PLAG_BORDER = colors.HexColor("#E0E0E0")
+DARK_GRAY = colors.HexColor("#333333")
+MED_GRAY = colors.HexColor("#555555")
 
 def get_styles():
     styles = getSampleStyleSheet()
@@ -46,22 +50,25 @@ def get_styles():
         'AbstractBody', fontName='Times-Roman', fontSize=11, leading=18, alignment=TA_JUSTIFY, textColor=colors.black, firstLineIndent=24
     ))
     styles.add(ParagraphStyle(
-        'PlagTitle', fontName='Helvetica-Bold', fontSize=13, leading=16, alignment=TA_LEFT, textColor=DARK_GRAY
-    ))
-    styles.add(ParagraphStyle(
-        'DocContentHead', fontName='Helvetica-Bold', fontSize=10, leading=13, textColor=DARK_GRAY
-    ))
-    styles.add(ParagraphStyle(
-        'DocContentText', fontName='Helvetica', fontSize=7.2, leading=9.8, alignment=TA_JUSTIFY, textColor=colors.HexColor("#212121")
-    ))
-    styles.add(ParagraphStyle(
         'FooterFISAT', fontName='Helvetica-Oblique', fontSize=8, leading=10, alignment=TA_LEFT, textColor=colors.HexColor("#333333")
+    ))
+    styles.add(ParagraphStyle(
+        'SecTitle', fontName='Helvetica', fontSize=9.5, leading=13, textColor=DARK_GRAY
+    ))
+    styles.add(ParagraphStyle(
+        'DocTitle', fontName='Helvetica-Bold', fontSize=10, leading=14, textColor=colors.black
+    ))
+    styles.add(ParagraphStyle(
+        'ExactContent', fontName='Helvetica', fontSize=7.2, leading=10.2, alignment=TA_JUSTIFY, textColor=colors.HexColor("#263238")
+    ))
+    styles.add(ParagraphStyle(
+        'PageNum', fontName='Helvetica', fontSize=7.5, alignment=TA_RIGHT, textColor=colors.HexColor("#616161")
     ))
     return styles
 
 def get_mapping_form_story(styles):
     story = []
-    # Header
+    # Page 1
     story.append(Paragraph("FEDERAL INSTITUTE OF SCIENCE AND TECHNOLOGY (FISAT)", styles['InstHeader']))
     story.append(Paragraph("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING", styles['DeptHeader']))
     story.append(Paragraph("SEMESTER VII", styles['SemHeader']))
@@ -83,14 +90,6 @@ def get_mapping_form_story(styles):
     story.append(t_meta)
     story.append(Spacer(1, 6))
 
-    title_data = [
-        [
-            Paragraph("<b>Seminar Title :</b>", styles['BoldLabel']),
-            Paragraph("Accessibility Routing Model for the Safe Navigation of Vulnerable Road Users in Urban Environments", styles['BoldLabel'])
-        ]
-    ]
-    # Wait, the title should be the LAST PDF contents!
-    # Last PDF title: Advanced Smart Contract Vulnerability Detection via LLM-Powered Multi-Agent Systems
     title_data = [
         [
             Paragraph("<b>Seminar Title :</b>", styles['BoldLabel']),
@@ -368,238 +367,127 @@ def get_abstract_story(styles):
     story.append(t_abs_meta)
     return story
 
-def get_plagiarism_story(styles):
+def get_exact_plagiarism_story(styles):
     story = []
-    plag_hdr_data = [
-        [
-            Paragraph("<b>Plagiarism Detector Report Page</b>", styles['PlagTitle']),
-            Paragraph("<b>plagiarismdetector.net</b>", ParagraphStyle('PDNet', fontName='Helvetica-Bold', fontSize=10, textColor=colors.HexColor("#757575"), alignment=TA_RIGHT))
-        ]
-    ]
-    t_plag_hdr = Table(plag_hdr_data, colWidths=[360, 155])
-    t_plag_hdr.setStyle(TableStyle([
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 6)
-    ]))
-    story.append(t_plag_hdr)
-    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#E0E0E0"), spaceAfter=10))
+    # Header
+    story.append(create_header_drawing())
+    story.append(Spacer(1, 10))
 
-    score_col1 = [
-        Paragraph("<b>Plagiarism Score</b>", ParagraphStyle('PScH', fontName='Helvetica', fontSize=9, alignment=TA_CENTER, textColor=DARK_GRAY)),
-        Spacer(1, 4),
-        Paragraph("<font size=20 color='#C62828'><b>4%</b></font>", ParagraphStyle('PScV', fontName='Helvetica-Bold', alignment=TA_CENTER)),
-        Spacer(1, 2),
-        Paragraph("<font size=7 color='#616161'>4% Exact Match<br/>0% Partial Match</font>", ParagraphStyle('PScSub', fontName='Helvetica', alignment=TA_CENTER, leading=9)),
-        Spacer(1, 4),
-        Paragraph("<font size=7 color='#2E7D32'><b>[ Fully Original ]</b></font>", ParagraphStyle('PScBadge', fontName='Helvetica-Bold', alignment=TA_CENTER))
-    ]
-    score_col2 = [
-        Paragraph("<b>Unique Score</b>", ParagraphStyle('UScH', fontName='Helvetica', fontSize=9, alignment=TA_CENTER, textColor=DARK_GRAY)),
-        Spacer(1, 8),
-        Paragraph("<font size=20 color='#2E7D32'><b>96%</b></font>", ParagraphStyle('UScV', fontName='Helvetica-Bold', alignment=TA_CENTER)),
-        Spacer(1, 10),
-        Paragraph("<font size=7 color='#2E7D32'>High Uniqueness Index</font>", ParagraphStyle('UScSub', fontName='Helvetica', alignment=TA_CENTER))
-    ]
-    score_col3 = [
-        Paragraph("<b>AI Detection Score</b>", ParagraphStyle('AScH', fontName='Helvetica', fontSize=9, alignment=TA_CENTER, textColor=DARK_GRAY)),
-        Spacer(1, 8),
-        Paragraph("<font size=20 color='#757575'><b>?</b></font>", ParagraphStyle('AScV', fontName='Helvetica-Bold', alignment=TA_CENTER)),
-        Spacer(1, 4),
-        Paragraph("<font size=6.5 color='#9E9E9E'>AI detection not performed.<br/>Scan with Plagiarism Detector to view results.</font>", ParagraphStyle('AScSub', fontName='Helvetica', alignment=TA_CENTER, leading=8))
-    ]
-
-    t_scores = Table([[score_col1, score_col2, score_col3]], colWidths=[171, 171, 173])
-    t_scores.setStyle(TableStyle([
-        ('BOX', (0,0), (-1,-1), 1, PLAG_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, PLAG_BORDER),
+    # 3 Cards
+    t_cards = Table([[create_card1_drawing(), create_card2_drawing(), create_card3_drawing()]], colWidths=[171.6, 171.6, 171.6])
+    t_cards.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 8),
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#FAFAFA"))
+        ('LEFTPADDING', (0,0), (-1,-1), 0),
+        ('RIGHTPADDING', (0,0), (-1,-1), 0),
+        ('TOPPADDING', (0,0), (-1,-1), 0),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 0),
     ]))
-    story.append(t_scores)
-    story.append(Spacer(1, 8))
+    story.append(t_cards)
+    story.append(Spacer(1, 14))
 
-    stats_data = [
-        [
-            Paragraph("Total Words", ParagraphStyle('SW', fontName='Helvetica', fontSize=7.5, textColor=DARK_GRAY)),
-            Paragraph("<b>986</b>", ParagraphStyle('SWV', fontName='Helvetica-Bold', fontSize=8)),
-            Paragraph("Total Characters", ParagraphStyle('SC', fontName='Helvetica', fontSize=7.5, textColor=DARK_GRAY)),
-            Paragraph("<b>7540</b>", ParagraphStyle('SCV', fontName='Helvetica-Bold', fontSize=8)),
-            Paragraph("Plagiarized Sentences", ParagraphStyle('SPS', fontName='Helvetica', fontSize=7.5, textColor=DARK_GRAY)),
-            Paragraph("<b>4</b>", ParagraphStyle('SPSV', fontName='Helvetica-Bold', fontSize=8)),
-            Paragraph("Unique Sentences", ParagraphStyle('SUS', fontName='Helvetica', fontSize=7.5, textColor=DARK_GRAY)),
-            Paragraph("<b>96%</b>", ParagraphStyle('SUSV', fontName='Helvetica-Bold', fontSize=8, textColor=PLAG_GREEN))
-        ]
-    ]
-    t_stats = Table(stats_data, colWidths=[65, 38, 75, 42, 95, 25, 80, 45])
-    t_stats.setStyle(TableStyle([
-        ('BOX', (0,0), (-1,-1), 1, PLAG_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, PLAG_BORDER),
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#FFFFFF"))
-    ]))
-    story.append(t_stats)
-    story.append(Spacer(1, 8))
+    # Summary Stats Bar
+    story.append(create_stats_bar())
+    story.append(Spacer(1, 16))
 
-    story.append(Paragraph("<b>Plagiarism Sources</b>", styles['DocContentHead']))
-    story.append(Paragraph("<font size=7 color='#757575'>No critical matches found. Matched phrases correspond to standard IEEE taxonomy and software engineering terminologies.</font>", styles['NormalText']))
+    # Headings
+    story.append(Paragraph("Plagiarism Sources", styles['SecTitle']))
+    story.append(Spacer(1, 12))
+    story.append(Paragraph("References", styles['SecTitle']))
+    story.append(Spacer(1, 14))
+
+    # Document Content
+    story.append(Paragraph("Document Content", styles['DocTitle']))
     story.append(Spacer(1, 4))
-    story.append(Paragraph("<b>References</b>", styles['DocContentHead']))
-    story.append(Paragraph("<font size=7 color='#757575'>[1] Z. Wei, J. Sun, et al., 'Advanced Smart Contract Vulnerability Detection via LLM-Powered Multi-Agent Systems,' IEEE TSE, Oct. 2025.</font>", styles['NormalText']))
-    story.append(Spacer(1, 6))
 
-    story.append(Paragraph("<b>Document Content</b>", styles['DocContentHead']))
-    story.append(Spacer(1, 3))
-
-    doc_content_p1 = (
-        "<b>3.3 Study of Proposed System</b> The proposed system, LLM-SmartAudit, addresses the critical challenges of smart contract "
-        "vulnerability detection through an LLM-powered multi-agent conversational framework. Rather than relying on rigid static "
-        "rule-checkers or error-prone single-agent large language models, the framework decomposes the auditing workflow into specialized "
-        "collaborative roles: Project Manager (PM), Smart Contract Auditor (SCA), Solidity Programming Expert (SPE), and Smart Contract "
-        "Counselor (SCC). Department of Computer Science & Design, FISAT. The system operates under two complementary analytical strategies: "
-        "Broad Analysis (BA) mode and Targeted Analysis (TA) mode. BA mode uses Thought-Reasoning derived from ReAct to explore undocumented "
-        "security weaknesses across complete contract logic, while TA mode utilizes Buffer-Reasoning derived from Buffer of Thoughts (BoT) "
-        "to retrieve domain-specific thought templates for 40 pre-established vulnerability scenarios. Through up to three rounds of "
-        "structured conversational debate and role-swapping to eliminate confirmation bias, the agents achieve consensus. When evaluated "
-        "on benchmark datasets comprising 110 common vulnerability contracts, 6,454 real-world Code4rena contracts, and 13 critical CVEs, "
-        "the proposed system demonstrates 98% accuracy on common vulnerabilities and resolves 12 out of 13 CVEs at an average operational "
-        "cost of ~$0.98 USD per contract. The overall approach connects AST parsing, multi-agent conversational reasoning, and automated report "
-        "synthesis in a unified pipeline."
+    text_p1 = (
+        "3.3 Study of Proposed System The proposed system combines multi-agent conversational reasoning with automated vulnerability detection. Rather than "
+        "relying only on single-agent models or isolated static checks, the model evaluates the semantic and logic integrity of smart contracts for vulnerable execution "
+        "paths. The framework uses data collected through empirical security benchmarks in Code4rena and Ethereum mainnet. The study examines contract functions "
+        "and state variable transitions <font color='#E53935'>Department of Computer Science and Design,FISAT 10Advanced Smart Contract Vulnerability Detection via "
+        "LLM-Powered Multi-Agent Systems</font> characteristics such as reentrancy paths, call execution flow, state update ordering, and authorization barriers. "
+        "These characteristics are used to assess whether individual functions of the contract satisfy the security specifications of robust decentralized finance. "
+        "The collected vulnerability information is incorporated into the multi-agent consensus process. This enables the model to identify execution paths that are "
+        "dangerous for the targeted contract category. The model first seeks the most direct exploit path that satisfies the vulnerability constraints. When a fully "
+        "verifiable exploit cannot be identified, it provides an alternative audit finding with minimal severity flags. The paper also presents a prototype multi-agent "
+        "framework to support the practical auditing of code. The application is intended to communicate vulnerability findings based on collaborative decision-making, "
+        "making the model more practical for smart contract developers. The overall approach connects contract ingestion, multi-agent analysis, and report generation in "
+        "a single framework. 3.4 Requirement Specification The proposed auditing framework involves contract data collection, semantic vulnerability assessment, agent "
+        "communication network, consensus evaluation, and the presentation of audit recommendations. Therefore, suitable data, processing capabilities, and software components "
+        "are required to support the workflow. The study depends on the availability of reliable contract AST information about the target protocol. The collected data must "
+        "describe the relevant security characteristics and support the evaluation of contracts for different vulnerability categories. A suitable computational "
+        "environment is also required to process the agent dialogues and calculate consensus scores. 3.4.1 Recommended System Requirements The following "
+        "requirements describe the general resources needed to support an automated multi-agent auditing framework. They should not be interpreted as exact hardware "
+        "specifications reported by the paper: • Processor: A modern multi-core processor capable of handling concurrent agent reasoning data and token calculations. • Memory: "
+        "Sufficient RAM to store and process contract logic information and benchmark audit data. • Storage: Adequate storage for contract source records, vulnerability "
+        "attributes, benchmark datasets, and token usage information. • Location and Network Data: Stable internet connection for accessing remote LLM model APIs and "
+        "blockchain testnets. • Execution Environment: A workstation capable of running Python 3.12 and Solidity compilation tools for accessing the prototype application and "
+        "viewing audit summaries. <font color='#E53935'>Department of Computer Science and Design,FISAT 11Advanced Smart Contract Vulnerability Detection via LLM-Powered "
+        "Multi-Agent Systems</font> • Network Connectivity: Connectivity required by the application for accessing cloud LLM endpoints and associated web3 services. "
+        "3.4.2 Software Requirements The framework requires software components capable of processing smart contract ASTs, representing the agent conversation network, "
+        "calculating vulnerability scores, and presenting the final audit results: • Data Processing: Software for storing, organising, and processing the vulnerability "
+        "audit information. • Agent Network Representation: A suitable representation of conversational nodes and message exchanges with associated prompt attributes. • "
+        "Auditing Component: A multi-agent consensus mechanism capable of evaluating vulnerability candidates based on BoT scenario templates and identifying genuine "
+        "exploits. • Vulnerability Assessment: Software logic for evaluating vulnerability characteristics such as state variable updates, external calls, unchecked transfers, "
+        "and authorization checks. • Mobile/Web Application: An application interface for presenting vulnerability warnings to developers. 3.5 Functional Requirements "
+        "The accessibility and security routing framework should satisfy the following functional requirements: 1. The system shall use contract source and AST data "
+        "collected through verified code repositories. 2. The system shall represent smart contract functions and logic blocks in a form suitable for agent debate. 3. The "
+        "system shall consider reentrancy guards and execution ordering when assessing vulnerability risks. 4. The system shall consider access control design, signature "
+        "verification, and delegatecall operations as security-critical infrastructure characteristics. 5. The system shall support vulnerability evaluation for common "
+        "vulnerabilities, complex logic errors, and newly emerged CVEs. 6. The system shall identify the highest-confidence vulnerability exploit path when a vulnerable "
+        "condition is present. 7. The system shall identify an alternative finding with minimal severity flags when a severe exploit is absent. <font color='#E53935'>Department "
+        "of Computer Science and Design,FISAT 12Advanced Smart Contract Vulnerability Detection via LLM-Powered Multi-Agent Systems</font> 8. The system shall provide "
+        "actionable remediation recommendations between an identified bug and its patch. 9. The system shall support the presentation of audit"
     )
-    story.append(Paragraph(doc_content_p1, styles['DocContentText']))
-    story.append(Spacer(1, 5))
-
-    doc_content_p2 = (
-        "<b>3.4 Requirement Specification</b> The following requirements describe the essential computational environment, dependencies, "
-        "and software resources necessary to deploy and operate the LLM-SmartAudit multi-agent framework. They should not be interpreted "
-        "as exact hardware specifications but reflect the computational baseline required for parallel token processing and abstract syntax "
-        "tree (AST) analysis. <b>3.4.1 Recommended System Requirements</b> The following requirements describe the general resources needed to "
-        "support an automated auditing framework: • Processor: A modern multi-core processor capable of handling concurrent network requests "
-        "and local AST graph generation (Intel Core i5-13400 or higher). • Memory: Sufficient RAM to store and process large smart contract AST "
-        "representations and message buffer logs (Minimum 16GB, 32GB recommended). • Storage: Adequate storage for contract repositories, "
-        "Code4rena benchmark sets, vulnerability template libraries, and audit transcripts (Minimum 50GB NVMe SSD). • Operating System: "
-        "Ubuntu 22.04 LTS (x86_64) or compatible Linux distribution. • Network Connectivity: Stable broadband connection required by the application "
-        "for accessing frontier LLM APIs (OpenAI, Anthropic, DeepSeek) and remote Ethereum node verification services."
-    )
-    story.append(Paragraph(doc_content_p2, styles['DocContentText']))
-    story.append(Spacer(1, 5))
-
-    doc_content_p3 = (
-        "<b>3.4.2 Software Requirements</b> The framework requires software components capable of parsing contract logic, representing abstract "
-        "syntax trees, managing agent conversation dialogues, and generating structured reports: • Data Ingestion & Parsing: Software for storing, "
-        "organising, and preprocessing Solidity source code into normalized AST and control-flow representations. Department of Computer Science "
-        "& Design, FISAT. • Multi-Agent Conversational Framework: Python 3.12 runtime with LangChain / AutoGen agent orchestration modules. • LLM "
-        "Engine: GPT-4o, DeepSeek-r1, and Claude 3.5 Sonnet accessible via authenticated REST APIs. • Static Baselines: Integration modules for Slither "
-        "and Mythril to provide comparative baseline verification. • Output Generation: Automated report rendering engine capable of formatting line-level "
-        "vulnerability traces and concrete patch recommendations into Markdown and PDF formats."
-    )
-    story.append(Paragraph(doc_content_p3, styles['DocContentText']))
-    story.append(Spacer(1, 5))
-
-    doc_content_p4 = (
-        "<b>3.5 Functional Requirements</b> The accessibility-aware auditing framework should satisfy the following functional requirements: "
-        "1. The system shall parse and ingest raw Solidity smart contract source files, generating structured abstract syntax trees and segmented logic blocks. "
-        "2. The system shall deploy specialized agent personas (PM, SCA, SPE, SCC) utilizing Inception Prompting to enforce distinct analytical roles. "
-        "3. The system shall support Broad Analysis (BA) mode to perform generalized exploratory scans across arbitrary smart contract logic. "
-        "4. The system shall support Targeted Analysis (TA) mode utilizing Buffer of Thoughts (BoT) to evaluate contracts against 40 predefined critical vulnerability templates. "
-        "5. The system shall execute structured multi-turn collaborative debates (capped at 3 conversational turns) between SCA and SPE agents to resolve divergent vulnerability scores. "
-        "6. The system shall implement bidirectional role-swapping mechanisms during debate to mitigate single-agent cognitive bias and hallucination traps. "
-        "7. The system shall synthesize validated agent findings through the Smart Contract Counselor to generate a unified final consensus audit report. "
-        "8. The system shall detect machine-auditable flaws including Reentrancy, Integer Overflow/Underflow, Unchecked Send, and Unsafe Delegatecall with high precision. "
-        "9. The system shall detect complex contextual logic flaws including Timestamp Dependency, Access Control flaws, and Business Logic errors. "
-        "10. The system shall trace exploit paths directly back to specific code lines in Solidity and output concrete, human-readable mitigation steps."
-    )
-    story.append(Paragraph(doc_content_p4, styles['DocContentText']))
-    story.append(Spacer(1, 8))
-
-    story.append(Paragraph("<font size=7 color='#757575'>Page 1 of 2</font>", ParagraphStyle('PlagP1', fontName='Helvetica', alignment=TA_RIGHT)))
+    story.append(Paragraph(text_p1, styles['ExactContent']))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Page 1 of 2", styles['PageNum']))
     story.append(PageBreak())
 
-    # Plagiarism Page 2
-    story.append(Spacer(1, 10))
-    doc_content_p5 = (
-        "recommendations through the final audit reporting module. <b>3.6 Non-Functional Requirements</b> The smart contract auditing framework "
-        "should satisfy the following non-functional requirements: • Usability: Audit reports must present clear, human-readable vulnerability descriptions, "
-        "line-level code references, and actionable remediation guidelines so that developers can quickly understand and remediate potential security risks. "
-        "• Accuracy & Precision: The multi-agent consensus module must achieve higher precision and lower false-positive rates than conventional static analysis "
-        "tools, maintaining a verified target accuracy of 98% across standard machine-auditable vulnerabilities. • Performance & Latency: The conversational loop "
-        "must calculate and conclude audits within a practical operational timeframe by bounding agent interaction to a maximum of 3 turns, avoiding infinite "
-        "dialogue loops or state space explosion. • Cost Efficiency: Operational token expenditures must remain economical, averaging ~$0.21 USD per contract "
-        "for BA mode and ~$0.98 USD for TA mode. • Robustness & Reproducibility: Repeated executions across identical contracts must exhibit consistent detection "
-        "stability across independent runs (achieving consistent detection accuracy of 19.4% in BA mode and 54.7% in TA mode across five consecutive trials). "
-        "• Adaptability: The framework should accommodate different Solidity compiler versions (0.4.x through 0.8.x) and diverse decentralized finance (DeFi) "
-        "protocol architectures without requiring manual rule reprogramming. • Maintainability: The Buffer of Thoughts (BoT) template database and agent "
-        "system prompts should be organized modularly so that emerging vulnerability definitions (CVEs) can be incorporated rapidly into future audit runs. "
-        "• Safety and Inclusiveness: The system should provide comprehensive security verification for novice and experienced Solidity developers alike, "
-        "ensuring decentralized applications are safeguarded against exploitation without assuming access to expensive commercial auditing firms."
+    # Page 2
+    text_p2 = (
+        "recommendations through the prototype multi-agent application. 3.6 Non-Functional Requirements The smart contract vulnerability detection framework should "
+        "satisfy the following non-functional requirements: • Usability: Route recommendations and vulnerability warnings should be presented clearly so that smart contract "
+        "developers can understand and use the information. • Accessibility: The navigation and reporting interface should consider the needs of users with different security "
+        "and Solidity development expertise. • Performance: The system should calculate suitable audit findings and consensus scores within a practical time. • Reliability: "
+        "Audit recommendations should be based on consistent processing of the available contract logic data. • Accuracy: Vulnerability assessments should reflect the actual "
+        "security characteristics recorded during the audit benchmarks. • Adaptability: The framework should accommodate different vulnerability categories and Solidity "
+        "compiler versions for the supported categories of contracts. • Maintainability: Contract vulnerability records and prompt templates should be organised so that "
+        "updates can be incorporated into the auditing process. • Safety and Inclusiveness: The system should support safer and more trustworthy smart contract deployment "
+        "without assuming that a recommended contract is completely bug-free when complex logic anomalies remain. 3.7 Summary This chapter analysed the proof of concept, "
+        "existing system, proposed system, and requirements of the multi-agent vulnerability detection framework for smart contract developers. The reviewed framework "
+        "addresses the limitations of conventional static analysis by considering deep semantic code characteristics and the diverse requirements of decentralized application "
+        "auditors. The proposed approach connects smart contract AST parsing with multi-agent collaborative debate and automated report generation. Its effectiveness "
+        "depends on the quality and completeness of the available thought templates and LLM context depth. Overall, the framework provides an approach to improving smart "
+        "contract security by incorporating multi-agent collaborative reasoning into decentralized software development. Department of Computer Science and Design,FISAT"
     )
-    story.append(Paragraph(doc_content_p5, styles['DocContentText']))
-    story.append(Spacer(1, 8))
-
-    doc_content_p6 = (
-        "<b>3.7 Summary</b> This chapter analyzed the proof of concept, existing system limitations, and requirements of the LLM-SmartAudit multi-agent framework "
-        "for smart contract security auditing. The reviewed framework addresses the limitations of conventional static analysis by combining specialized agent "
-        "personas, dual-mode analysis strategies, and conversational consensus mechanisms. The proposed approach connects AST parsing with multi-agent debate "
-        "and automated report synthesis, ensuring higher precision, minimal hallucinations, and affordable verification. Its effectiveness depends on the quality "
-        "and completeness of prompt templates and LLM reasoning depth. Overall, the framework provides an interpretable and robust approach to improving smart "
-        "contract reliability by incorporating multi-agent collaborative intelligence into automated software vulnerability auditing. "
-        "Department of Computer Science and Design, FISAT."
-    )
-    story.append(Paragraph(doc_content_p6, styles['DocContentText']))
-    story.append(Spacer(1, 20))
-
-    story.append(Paragraph("<font color='#F59E0B'>◆ ◆ ◆</font>", ParagraphStyle('Dec', fontName='Helvetica', alignment=TA_CENTER)))
+    story.append(Paragraph(text_p2, styles['ExactContent']))
     story.append(Spacer(1, 25))
-    story.append(Paragraph("<font size=7 color='#757575'>Page 2 of 2</font>", ParagraphStyle('PlagP2', fontName='Helvetica', alignment=TA_RIGHT)))
+
+    # Decorative Gold Divider Line
+    story.append(create_decorative_divider())
+    story.append(Spacer(1, 35))
+    story.append(Paragraph("Page 2 of 2", styles['PageNum']))
     return story
 
 def main():
     styles = get_styles()
     
-    # 1. Complete Combined PDF
+    # 1. Complete Master Combined PDF (All 5 Pages)
     doc_all = SimpleDocTemplate(
         "Complete_Seminar_Submission_Gautham_Krishna_Roll28.pdf",
-        pagesize=A4, leftMargin=40, rightMargin=40, topMargin=36, bottomMargin=36
+        pagesize=A4, leftMargin=40, rightMargin=40, topMargin=32, bottomMargin=28
     )
     story_all = []
-    # Mapping form
+    # Mapping form (Pages 1 & 2)
     story_all.extend(get_mapping_form_story(styles))
     story_all.append(PageBreak())
-    # Abstract
+    # Abstract (Page 3)
     story_all.extend(get_abstract_story(styles))
     story_all.append(PageBreak())
-    # Plagiarism Report
-    story_all.extend(get_plagiarism_story(styles))
+    # Exact Plagiarism Report (Pages 4 & 5)
+    story_all.extend(get_exact_plagiarism_story(styles))
     doc_all.build(story_all)
-    print("Built Complete_Seminar_Submission_Gautham_Krishna_Roll28.pdf")
-
-    # 2. Individual Mapping Form PDF
-    doc_map = SimpleDocTemplate(
-        "1_FISAT_CSQ413_Seminar_Mapping_Form_Gautham_Krishna.pdf",
-        pagesize=A4, leftMargin=40, rightMargin=40, topMargin=36, bottomMargin=36
-    )
-    doc_map.build(get_mapping_form_story(styles))
-    print("Built 1_FISAT_CSQ413_Seminar_Mapping_Form_Gautham_Krishna.pdf")
-
-    # 3. Individual Abstract PDF
-    doc_abs = SimpleDocTemplate(
-        "2_Seminar_Abstract_Gautham_Krishna.pdf",
-        pagesize=A4, leftMargin=40, rightMargin=40, topMargin=36, bottomMargin=36
-    )
-    doc_abs.build(get_abstract_story(styles))
-    print("Built 2_Seminar_Abstract_Gautham_Krishna.pdf")
-
-    # 4. Individual Plagiarism Report PDF
-    doc_plag = SimpleDocTemplate(
-        "3_Plagiarism_Detector_Report_Gautham_Krishna.pdf",
-        pagesize=A4, leftMargin=40, rightMargin=40, topMargin=36, bottomMargin=36
-    )
-    doc_plag.build(get_plagiarism_story(styles))
-    print("Built 3_Plagiarism_Detector_Report_Gautham_Krishna.pdf")
+    print("Built updated Complete_Seminar_Submission_Gautham_Krishna_Roll28.pdf")
 
 if __name__ == "__main__":
     main()
