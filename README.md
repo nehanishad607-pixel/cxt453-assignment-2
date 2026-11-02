@@ -26,7 +26,7 @@ As specified in the assignment guidelines, these are **pure presentation/UI-only
 | **28** | **Question 2** *(Roll 15 - 28)* | **InkVerse Comics** | Comic story publication platform with visual narrative panels, chapter lists, character spotlights, and STEM literacy series. | **SDG 4**: Quality Education | [`roll-28/`](./roll-28/index.html) |
 | **36** | **Question 3** *(Roll 29 - 42)* | **EduSphere Journal** | Academic educational blog & open resource publishing portal featuring peer-reviewed articles, visual architecture breakdowns, and topic filters. | **SDG 4**: Quality Education | [`roll-36/`](./roll-36/index.html) |
 | **45** | **Question 4** *(Roll 43 - 56)* | **CircuTech** | Advertisement showcase for modular, repairable eco-laptops, fairtrade smartphones, and solar peripherals with circular trade-in incentives. | **SDG 12**: Responsible Consumption & Production | [`roll-45/`](./roll-45/index.html) |
-| **53** | **Question 4** *(Roll 43 - 56)* | **VoltPulse** | Cyber-acoustic advertising campaign for next-gen ultra-low energy audio gear and wearable electronics utilizing recycled rare-earth components. | **SDG 12**: Responsible Consumption & Production | [`roll-53/`](./roll-53/index.html) |
+| **53** | **Question 4** *(Roll 43 - 56)* | **VoltPulse** (Safwan Muhammed Rashid) | Cyber-acoustic advertising campaign for next-gen ultra-low energy audio gear and wearable electronics utilizing recycled rare-earth components. | **SDG 12**: Responsible Consumption & Production | [`roll-53/`](./roll-53/index.html) |
 
 ---
 
